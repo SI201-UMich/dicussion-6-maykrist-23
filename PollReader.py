@@ -107,10 +107,10 @@ class PollReader():
                 harris_total += self.data_dict['Harris result'][i]
                 trump_total += self.data_dict['Trump result'][i]
                 count += 1
-            if count > 0:
-                return (harris_total / count, trump_total / count)
-            else:
-                return (0.0, 0.0)
+        if count > 0:
+            return (harris_total / count, trump_total / count)
+        else:
+            return (0.0, 0.0)
 
 
     def polling_history_change(self):
@@ -126,7 +126,7 @@ class PollReader():
         """
         
         early_harris = sum(self.data_dict['Harris result'][-30:]) / 30
-        early_trump = sum(self.data_dict['Trump result'][-30]) / 30
+        early_trump = sum(self.data_dict['Trump result'][-30:]) / 30
 
         late_harris = sum(self.data_dict['Harris result'][:30]) / 30
         late_trump = sum(self.data_dict['Trump result'][:30]) / 30
@@ -160,6 +160,7 @@ class TestPollReader(unittest.TestCase):
         harris_avg, trump_avg = self.poll_reader.likely_voter_polling_average()
         self.assertTrue(isinstance(harris_avg, float))
         self.assertTrue(isinstance(trump_avg, float))
+        print(f"{harris_avg:.2%}")
         self.assertTrue(f"{harris_avg:.2%}" == "49.34%")
         self.assertTrue(f"{trump_avg:.2%}" == "46.04%")
 
